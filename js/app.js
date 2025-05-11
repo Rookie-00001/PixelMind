@@ -38,7 +38,7 @@ function setupEventListeners() {
     });
     
     document.getElementById('github-btn').addEventListener('click', function() {
-        window.open('https://github.com', '_blank');
+        window.open('https://github.com/Rookie-00001/PixelMind/', '_blank');
     });
     
     // 全屏按钮
