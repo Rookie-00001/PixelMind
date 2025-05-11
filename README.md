@@ -19,7 +19,7 @@ PixelMind 专注空间是一个帮助用户集中注意力的白噪音放松工�
 
 ### 在线使用
 
-访问 [PixelMind 专注空间](https://your-website-url.com) 即可在线使用本工具。
+访问 [PixelMind 专注空间](https://rookie-00001.github.io/PixelMind/) 即可在线使用本工具。
 
 ### 本地部署
 
