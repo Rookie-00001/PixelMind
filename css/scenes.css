@@ -1,0 +1,178 @@
+/* 场景画部分 */
+.scene-container {
+    flex: 1;
+    min-width: 350px;
+    aspect-ratio: 16/10;
+    background-color: #000;
+    border: 4px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    transition: all 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+body.fullscreen .scene-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    min-width: 100%;
+    border: none;
+    border-radius: 0;
+    z-index: 1000;
+    aspect-ratio: auto;
+}
+
+.scene-container.square {
+    aspect-ratio: 1/1;
+}
+
+.scene {
+    width: 100%;
+    height: 100%;
+    display: none;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.scene.active {
+    display: block;
+    opacity: 1;
+}
+
+/* 用户上传图片容器 */
+.user-image-container {
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.user-image-container.active {
+    display: block;
+    opacity: 1;
+}
+
+.user-image, .media-element {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* 用户上传视频容器 */
+.user-video-container {
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.user-video-container.active {
+    display: block;
+    opacity: 1;
+}
+
+/* 全屏按钮 */
+.fullscreen-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background-color 0.3s ease, opacity 0.5s ease;
+}
+
+body.fullscreen .fullscreen-button {
+    display: none;
+}
+
+.fullscreen-button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.fullscreen-icon {
+    width: 20px;
+    height: 20px;
+    fill: #fff;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+}
+
+/* 退出全屏按钮 */
+.exit-fullscreen-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+    transition: background-color 0.3s ease, opacity 0.8s ease;
+    opacity: 0;
+}
+
+body.fullscreen .exit-fullscreen-button {
+    display: flex;
+    opacity: 1;
+}
+
+.exit-fullscreen-button:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.exit-fullscreen-icon {
+    width: 20px;
+    height: 20px;
+    fill: #fff;
+}
+
+/* 场景比例选择 */
+.aspect-ratio-selector {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.aspect-ratio-option {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 15px;
+}
+
+.aspect-ratio-option:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+.aspect-ratio-option.active {
+    background-color: #6c63ff;
+    color: white;
+}

@@ -1,0 +1,74 @@
+/* responsive.css - 更新响应式设计中的字体大小 */
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    /* 现有的响应式规则保持不变 */
+    
+    /* 响应式字体大小调整 - 所有主题 */
+    body {
+        font-size: 16px; /* 从14px增加到16px */
+    }
+    
+    .navbar-title {
+        font-size: 20px; /* 从18px增加到20px */
+    }
+    
+    .timer-display {
+        font-size: 32px; /* 从28px增加到32px */
+    }
+    
+    .control-button {
+        font-size: 16px; /* 从14px增加到16px */
+        padding: 8px 12px;
+    }
+    
+    .modal-title {
+        font-size: 22px; /* 从20px增加到22px */
+    }
+    
+    .scene-option,
+    .sound-option {
+        font-size: 15px; /* 从13px增加到15px */
+        padding: 8px 10px;
+    }
+    
+    .footer {
+        font-size: 12px; /* 从10px增加到12px */
+    }
+}
+
+/* 更小屏幕的调整 */
+@media (max-width: 480px) {
+    body {
+        font-size: 15px; /* 从13px增加到15px */
+    }
+    
+    .navbar-title {
+        font-size: 18px; /* 从16px增加到18px */
+    }
+    
+    .timer-display {
+        font-size: 28px; /* 从24px增加到28px */
+    }
+    
+    .control-button {
+        font-size: 15px; /* 从13px增加到15px */
+        padding: 7px 10px;
+    }
+    
+    .modal-title {
+        font-size: 20px; /* 从18px增加到20px */
+    }
+    
+    .scene-option,
+    .sound-option {
+        font-size: 14px; /* 从12px增加到14px */
+        padding: 7px 9px;
+    }
+    
+    .settings-option label,
+    .color-picker-container label,
+    .upload-container p {
+        font-size: 16px; /* 从14px增加到16px */
+    }
+}

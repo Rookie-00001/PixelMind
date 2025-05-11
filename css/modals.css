@@ -1,0 +1,268 @@
+/* 模态窗口 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 550px;
+    color: #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.5s ease, color 0.5s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 15px;
+    transition: border-color 0.5s ease;
+}
+
+.modal-title {
+    font-size: 24px;
+    color: #333;
+    font-weight: 600;
+    transition: color 0.5s ease;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.5s ease;
+}
+
+.close-button:hover {
+    color: #333;
+}
+
+.settings-option {
+    margin-bottom: 20px;
+}
+
+.settings-option label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.5s ease;
+}
+
+/* Upload image button */
+.upload-container {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px dashed #ccc;
+    border-radius: 12px;
+    text-align: center;
+    transition: border-color 0.5s ease;
+}
+
+.upload-label {
+    display: block;
+    cursor: pointer;
+    padding: 12px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    margin-top: 12px;
+    font-size: 16px;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.upload-label:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+#upload-image, #upload-video {
+    display: none;
+}
+
+/* 用户上传文件列表 */
+.user-files-container {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    transition: border-color 0.5s ease;
+}
+
+.user-files-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.user-files-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.user-file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 5px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.user-file-name {
+    font-size: 14px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 10px;
+}
+
+.user-file-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.user-file-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.user-file-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.user-file-btn.delete {
+    color: #f44336;
+}
+
+/* 颜色选择器 */
+.color-picker-container {
+    margin-top: 20px;
+}
+
+.theme-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.theme-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+    position: relative;
+}
+
+.theme-button:hover {
+    transform: scale(1.1);
+}
+
+.theme-button:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 8px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+    margin-bottom: 5px;
+}
+
+.theme-button.active {
+    border-color: #333;
+}
+
+/* 颜色选择器对话框 */
+.color-picker-modal {
+    display: none;
+    position: fixed;
+    z-index: 110;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.color-picker-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 280px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.5s ease;
+}
+
+.color-picker-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: 600;
+}
+
+.color-picker {
+    width: 100%;
+    height: 40px;
+    margin: 0 0 15px 0;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.color-picker-button {
+    padding: 10px 15px;
+    background-color: #6c63ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+.color-picker-button:hover {
+    background-color: #5a52d5;
+    transform: translateY(-2px);
+}

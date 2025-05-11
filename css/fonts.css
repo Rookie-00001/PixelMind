@@ -1,0 +1,128 @@
+/* fonts.css - 增加所有字体大小 */
+
+/* 声明 Zpix 字体 */
+@font-face {
+    font-family: 'Zpix';
+    src: url('../fonts/zpix.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* 全局应用像素字体 - 应用于所有主题，整体增大字体大小 */
+body {
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+    font-size: 18px; /* 从16px增加到18px */
+    line-height: 1.4;
+    letter-spacing: 0px;
+}
+
+/* 导航栏标题 */
+.navbar-title {
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+    font-size: 22px; /* 从20px增加到22px */
+    letter-spacing: 0px;
+}
+
+/* 控制按钮 */
+.control-button {
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+    font-size: 18px; /* 从16px增加到18px */
+    padding: 10px 14px; /* 增加按钮内边距 */
+}
+
+/* 计时器显示 */
+.timer-display {
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+    font-size: 36px; /* 从32px增加到36px */
+    letter-spacing: 2px;
+    font-weight: normal;
+}
+
+/* 模态窗口标题 */
+.modal-title {
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+    font-size: 24px; /* 从22px增加到24px */
+    margin-bottom: 16px;
+}
+
+/* 下拉菜单选项 */
+.scene-option,
+.sound-option {
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+    font-size: 16px; /* 从14px增加到16px */
+    padding: 9px 12px; /* 增加内边距 */
+}
+
+/* 设置选项标签 */
+.settings-option label,
+.color-picker-container label,
+.upload-container p {
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+    font-size: 18px; /* 从16px增加到18px */
+    margin-bottom: 10px;
+}
+
+/* 页脚 */
+.footer,
+.footer-content,
+.footer-description,
+.footer-author,
+.footer-copyright {
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+    font-size: 14px; /* 从12px增加到14px */
+    line-height: 1.6;
+}
+
+/* 滑块标签 */
+.slider-container label {
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+    font-size: 18px; /* 从16px增加到18px */
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* 按钮内文字 */
+button,
+.upload-label {
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+    font-size: 16px; /* 从14px增加到16px */
+}
+
+/* 场景和声音选择器 */
+.current-scene,
+.current-sound {
+    font-size: 18px; /* 从16px增加到18px */
+}
+
+/* 比例选项 */
+.aspect-ratio-option {
+    font-size: 16px; /* 从14px增加到16px */
+    padding: 6px 10px;
+}
+
+/* 文件列表 */
+.no-files {
+    font-size: 16px; /* 从14px增加到16px */
+}
+
+.user-files-title {
+    font-size: 18px; /* 从16px增加到18px */
+    margin-bottom: 12px;
+}
+
+/* 禁用字体平滑以获得更清晰的像素效果 */
+body {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+    font-smooth: never;
+    text-rendering: geometricPrecision;
+}
+
+/* 确保所有元素继承像素字体 */
+* {
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+}

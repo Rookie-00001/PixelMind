@@ -1,0 +1,430 @@
+/* 导航栏 */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    padding: 0 20px;
+    background-color: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background-color 0.5s ease, opacity 1s ease, transform 1s ease;
+}
+
+body.fullscreen .navbar {
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
+.navbar-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    transition: color 0.5s ease;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 15px;
+}
+
+.navbar-link {
+    padding: 8px 12px;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #333;
+    font-weight: 500;
+}
+
+.navbar-link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 控制按钮部分 */
+.controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 250px;
+    gap: 20px;
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+body.fullscreen .controls {
+    opacity: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+}
+
+.control-button {
+    height: 54px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 12px;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.control-button:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.control-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#play-pause {
+    background-color: #6c63ff;
+    color: white;
+}
+
+#play-pause:hover {
+    background-color: #5a52d5;
+}
+
+/* Scene selector dropdown */
+.scene-selector {
+    position: relative;
+}
+
+.scenes-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    z-index: 10;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.scenes-dropdown.show {
+    display: block;
+}
+
+.scene-option {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.scene-option:hover {
+    background-color: #e0e0e0;
+}
+
+.scene-option:last-child {
+    border-bottom: none;
+}
+
+.current-scene {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.current-scene::after {
+    content: "▼";
+    font-size: 10px;
+}
+
+/* 音效选择器 */
+.sound-selector {
+    display: none;
+    width: 100%;
+}
+
+.sound-selector.show {
+    display: block;
+}
+
+/* 音效选择下拉菜单 */
+.sound-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    z-index: 10;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.sound-dropdown.show {
+    display: block;
+}
+
+.sound-option {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.sound-option:hover {
+    background-color: #e0e0e0;
+}
+
+.sound-option:last-child {
+    border-bottom: none;
+}
+
+.slider-container {
+    padding: 10px 0;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.slider-container label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.5s ease;
+}
+
+.volume-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 12px;
+    background: #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.5s ease;
+    margin: 5px 0;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #6c63ff;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 专注计时器 */
+.focus-timer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.5s ease;
+    margin-top: 0;
+}
+
+.timer-display {
+    font-size: 36px;
+    font-weight: 600;
+    margin: 5px 0;
+    color: #333;
+    transition: color 0.5s ease;
+}
+
+.timer-slider {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.timer-slider input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 12px;
+    background: #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.5s ease;
+}
+
+.timer-slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #6c63ff;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 计时器控制按钮 */
+.timer-controls {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.timer-button {
+    background-color: #f44336;
+    color: white; /* 重要：设置按钮文本颜色为白色，这将影响图标颜色 */
+    border: none;
+    border-radius: 15%;
+    width: 80px;
+    height: 45px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.timer-button:hover {
+    background-color: #e53935;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.timer-button:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+/* 定时器重置图标样式 */
+.timer-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    fill: currentColor; /* 使用当前文本颜色 */
+    color: inherit; /* 继承父元素颜色 */
+    filter: brightness(2); /* 确保在深色背景上可见 */
+}
+
+/* 数字输入框样式 */
+input[type="number"] {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    color: #333;
+    font-size: 16px;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 12px;
+    background: #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.5s ease;
+    touch-action: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #6c63ff;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 导航栏 */
+.navbar {
+    /* 保持现有样式 */
+}
+
+/* 导航栏标题和图标 */
+.navbar-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    transition: color 0.5s ease;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo {
+    height: 32px; /* 标题旁的logo尺寸 */
+    width: 32px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* 导航栏链接容器 */
+.navbar-links {
+    display: flex;
+    gap: 15px;
+}
+
+/* 导航栏链接按钮 */
+.navbar-link {
+    width: 42px; /* 略微增加宽度 */
+    height: 42px; /* 略微增加高度 */
+    background-color: transparent;
+    border: none;
+    border-radius: 50%; /* 保持圆形 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #333;
+    margin: 0 5px;
+}
+
+/* 导航栏图标 */
+.navbar-icon {
+    width: 22px; /* 调整导航栏图标尺寸 */
+    height: 22px;
+    display: block;
+    transition: filter 0.3s;
+}
+
+/* 导航栏链接悬停效果 */
+.navbar-link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.navbar-link:active {
+    transform: translateY(1px);
+}
+
+/* 暗色主题导航栏悬停效果 */
+body.dark-theme .navbar-link:hover,
+body.pixel-theme .navbar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}

@@ -1,0 +1,545 @@
+/* 主题样式 */
+
+body.dark-theme {
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+}
+
+body.silver-theme {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+body.wood-theme {
+    background-color: #d0b894;
+    color: #402e1a;
+}
+
+body.green-theme {
+    background-color: #e0f2e9;
+    color: #245c3b;
+}
+
+body.pixel-theme {
+    background-color: #2c2137;
+    color: #ffffff;
+}
+
+body.retro-theme {
+    background-color: #f8e8c7;
+    color: #5c3d2e;
+}
+
+/* 导航栏主题 */
+body.dark-theme .navbar {
+    background-color: rgba(32, 32, 32, 0.85);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+body.silver-theme .navbar {
+    background-color: rgba(220, 220, 220, 0.85);
+}
+
+body.wood-theme .navbar {
+    background-color: rgba(208, 184, 148, 0.85);
+}
+
+body.green-theme .navbar {
+    background-color: rgba(224, 242, 233, 0.85);
+}
+
+body.pixel-theme .navbar {
+    background-color: rgba(60, 46, 78, 0.9);
+}
+
+body.retro-theme .navbar {
+    background-color: rgba(171, 123, 78, 0.9);
+}
+
+/* 导航标题主题 */
+body.dark-theme .navbar-title {
+    color: #f0f0f0;
+}
+
+body.wood-theme .navbar-title {
+    color: #402e1a;
+}
+
+body.green-theme .navbar-title {
+    color: #245c3b;
+}
+
+body.pixel-theme .navbar-title {
+    color: #ffeb3b;
+}
+
+body.retro-theme .navbar-title {
+    color: #f8e8c7;
+}
+
+/* 导航链接主题 */
+body.dark-theme .navbar-link {
+    color: #f0f0f0;
+}
+
+body.wood-theme .navbar-link {
+    color: #402e1a;
+}
+
+body.green-theme .navbar-link {
+    color: #245c3b;
+}
+
+body.pixel-theme .navbar-link {
+    color: #ffeb3b;
+}
+
+body.retro-theme .navbar-link {
+    color: #f8e8c7;
+}
+
+body.dark-theme .navbar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 星星主题 */
+body.dark-theme .star {
+    background-color: #ffffff;
+}
+
+/* 页脚主题 */
+body.dark-theme .footer {
+    color: #aaa;
+    border-top-color: #444;
+}
+
+body.wood-theme .footer {
+    color: #6d533c;
+    border-top-color: #c2ae8f;
+}
+
+body.green-theme .footer {
+    color: #245c3b;
+    border-top-color: #a5d6a7;
+}
+
+body.pixel-theme .footer {
+    color: #9d8ed7;
+    border-top-color: #3c2e4e;
+}
+
+body.retro-theme .footer {
+    color: #5c3d2e;
+    border-top-color: #dbc1a4;
+}
+
+/* 控制按钮主题 */
+body.dark-theme .control-button {
+    background-color: #333;
+    color: #f0f0f0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+body.wood-theme .control-button {
+    background-color: #c2ae8f;
+    color: #402e1a;
+}
+
+body.green-theme .control-button {
+    background-color: #c8e6c9;
+    color: #245c3b;
+}
+
+body.pixel-theme .control-button {
+    background-color: #764abc;
+    color: #ffffff;
+    border: 2px solid #9166cc;
+}
+
+body.retro-theme .control-button {
+    background-color: #ab7b4e;
+    color: #f8e8c7;
+    border: 2px solid #8c653e;
+}
+
+/* 控制按钮悬停主题 */
+body.dark-theme .control-button:hover {
+    background-color: #444;
+}
+
+body.wood-theme .control-button:hover {
+    background-color: #d1c1a5;
+}
+
+body.green-theme .control-button:hover {
+    background-color: #a5d6a7;
+}
+
+body.pixel-theme .control-button:hover {
+    background-color: #8c5fc9;
+}
+
+body.retro-theme .control-button:hover {
+    background-color: #c18a59;
+}
+
+/* 播放按钮主题 */
+body.dark-theme #play-pause {
+    background-color: #7d56f4;
+}
+
+body.wood-theme #play-pause {
+    background-color: #8d6e63;
+    color: white;
+}
+
+body.green-theme #play-pause {
+    background-color: #4caf50;
+    color: white;
+}
+
+body.pixel-theme #play-pause {
+    background-color: #4cda60;
+    color: #1a1a1a;
+}
+
+body.retro-theme #play-pause {
+    background-color: #629460;
+    color: #f8e8c7;
+}
+
+/* 播放按钮悬停主题 */
+body.dark-theme #play-pause:hover {
+    background-color: #6a46e0;
+}
+
+body.wood-theme #play-pause:hover {
+    background-color: #795548;
+}
+
+body.green-theme #play-pause:hover {
+    background-color: #43a047;
+}
+
+body.pixel-theme #play-pause:hover {
+    background-color: #5be970;
+}
+
+body.retro-theme #play-pause:hover {
+    background-color: #73a572;
+}
+
+/* 状态指示器主题 */
+body.pixel-theme .status-on {
+    background-color: #4cda60;
+    box-shadow: 0 0 5px #4cda60;
+}
+
+body.retro-theme .status-on {
+    background-color: #629460;
+    box-shadow: 0 0 5px #629460;
+}
+
+body.pixel-theme .status-off {
+    background-color: #f44336;
+}
+
+body.retro-theme .status-off {
+    background-color: #bc6c25;
+}
+
+/* 下拉菜单主题 */
+body.dark-theme .scenes-dropdown,
+body.dark-theme .sound-dropdown {
+    background-color: #333;
+    border-color: #555;
+}
+
+body.wood-theme .scenes-dropdown,
+body.wood-theme .sound-dropdown {
+    background-color: #d1c1a5;
+    border-color: #a18962;
+}
+
+body.green-theme .scenes-dropdown,
+body.green-theme .sound-dropdown {
+    background-color: #c8e6c9;
+    border-color: #81c784;
+}
+
+body.pixel-theme .scenes-dropdown,
+body.pixel-theme .sound-dropdown {
+    background-color: #3c2e4e;
+    border-color: #764abc;
+}
+
+body.retro-theme .scenes-dropdown,
+body.retro-theme .sound-dropdown {
+    background-color: #dbc1a4;
+    border-color: #ab7b4e;
+}
+
+/* 场景选项字体颜色 - 像素主题 */
+body.pixel-theme .scene-option {
+    color: #ffffff;
+}
+
+/* 声音选项字体颜色 - 像素主题 */
+body.pixel-theme .sound-option {
+    color: #ffffff;
+}
+
+/* 当前场景显示文字颜色 - 像素主题 */
+body.pixel-theme .current-scene {
+    color: #ffffff;
+}
+
+/* 当前声音显示文字颜色 - 像素主题 */
+body.pixel-theme .current-sound {
+    color: #ffffff;
+}
+
+/* 滑块主题 */
+body.dark-theme .volume-slider {
+    background: #555;
+}
+
+body.wood-theme .volume-slider {
+    background: #c2ae8f;
+}
+
+body.green-theme .volume-slider {
+    background: #a5d6a7;
+}
+
+body.pixel-theme .volume-slider {
+    background: #3c2e4e;
+}
+
+body.retro-theme .volume-slider {
+    background: #dbc1a4;
+}
+
+body.dark-theme .volume-slider::-webkit-slider-thumb {
+    background: #7d56f4;
+}
+
+body.wood-theme .volume-slider::-webkit-slider-thumb {
+    background: #8d6e63;
+}
+
+body.green-theme .volume-slider::-webkit-slider-thumb {
+    background: #4caf50;
+}
+
+body.pixel-theme .volume-slider::-webkit-slider-thumb {
+    background: #4cda60;
+}
+
+body.retro-theme .volume-slider::-webkit-slider-thumb {
+    background: #629460;
+}
+
+/* 定时器主题 */
+body.dark-theme .focus-timer {
+    background-color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+body.wood-theme .focus-timer {
+    background-color: #d1c1a5;
+}
+
+body.green-theme .focus-timer {
+    background-color: #c8e6c9;
+}
+
+body.pixel-theme .focus-timer {
+    background-color: #3c2e4e;
+    border: 2px solid #764abc;
+}
+
+body.retro-theme .focus-timer {
+    background-color: #dbc1a4;
+    color: #5c3d2e;
+}
+
+/* 定时器文字颜色 - 像素主题 */
+body.pixel-theme .timer-display {
+    color: #ffffff;
+}
+
+/* 定时器标签颜色 - 像素主题 */
+body.pixel-theme .slider-container label {
+    color: #ffffff;
+}
+
+/* 定时器按钮主题 */
+body.pixel-theme .timer-button {
+    background-color: #f44336;
+    color: #ffffff;
+}
+
+body.pixel-theme .timer-button:hover {
+    background-color: #ff5252;
+}
+
+body.retro-theme .timer-button {
+    background-color: #bc6c25;
+    color: #f8e8c7;
+}
+
+body.retro-theme .timer-button:hover {
+    background-color: #cc7c35;
+}
+
+/* 主题按钮样式 */
+.theme-white {
+    background-color: #f8f9fa;
+}
+
+.theme-dark {
+    background-color: #1a1a1a;
+}
+
+.theme-silver {
+    background-color: #e0e0e0;
+}
+
+.theme-wood {
+    background-color: #d0b894;
+}
+
+.theme-green {
+    background-color: #e0f2e9;
+}
+
+.theme-pixel {
+    background-color: #2c2137;
+}
+
+.theme-retro {
+    background-color: #f8e8c7;
+}
+
+.theme-custom {
+    background: linear-gradient(135deg, #ff5722, #2196f3, #4caf50);
+}
+
+/* 主题按钮激活状态 */
+body.dark-theme .theme-button.active {
+    border-color: #f0f0f0;
+}
+
+body.pixel-theme .theme-button.active {
+    border-color: #ffeb3b;
+}
+
+body.retro-theme .theme-button.active {
+    border-color: #bc6c25;
+}
+
+/* 图标颜色主题适配 */
+/* 基本（白色主题）图标颜色 */
+.navbar-icon, .timer-icon {
+    fill: currentColor; /* 使用当前文本颜色 */
+    color: inherit; /* 继承父元素颜色 */
+}
+
+/* 深色主题图标颜色 */
+body.dark-theme .navbar-icon,
+body.dark-theme .timer-icon {
+    filter: brightness(2); /* 使图标变亮 */
+}
+
+/* 计时器文字在暗黑模式下的颜色 */
+body.dark-theme .timer-display {
+    color: #ffffff; /* 白色 */
+}
+
+/* 像素主题图标颜色 */
+body.pixel-theme .navbar-icon,
+body.pixel-theme .timer-icon {
+    filter: brightness(2); /* 使图标变亮 */
+}
+
+/* 木质主题图标颜色 */
+body.wood-theme .navbar-icon,
+body.wood-theme .timer-icon {
+    filter: sepia(0.5) saturate(1.2) brightness(0.8); /* 棕色调 */
+}
+
+/* 绿色主题图标颜色 */
+body.green-theme .navbar-icon,
+body.green-theme .timer-icon {
+    filter: hue-rotate(100deg) brightness(0.8); /* 绿色调 */
+}
+
+/* 复古主题图标颜色 */
+body.retro-theme .navbar-icon,
+body.retro-theme .timer-icon {
+    filter: sepia(0.8) saturate(1.5) brightness(0.9); /* 复古棕色调 */
+}
+
+/* 银色主题图标颜色 */
+body.silver-theme .navbar-icon,
+body.silver-theme .timer-icon {
+    filter: brightness(0.7); /* 银灰色调 */
+}
+
+/* 重置按钮主题样式 */
+body.dark-theme .timer-button {
+    background-color: #f44336; /* 保持红色背景 */
+}
+
+body.wood-theme .timer-button {
+    background-color: #bc6c25;
+}
+
+body.green-theme .timer-button {
+    background-color: #c62828; /* 深红色 */
+}
+
+body.pixel-theme .timer-button {
+    background-color: #ff5252;
+    border: 2px solid #ff8a80;
+}
+
+body.retro-theme .timer-button {
+    background-color: #bc6c25;
+}
+
+body.silver-theme .timer-button {
+    background-color: #e53935;
+}
+
+/* 重置按钮悬停效果 */
+body.dark-theme .timer-button:hover {
+    background-color: #ff5252;
+}
+
+body.wood-theme .timer-button:hover {
+    background-color: #cc7c35;
+}
+
+body.green-theme .timer-button:hover {
+    background-color: #d32f2f;
+}
+
+body.pixel-theme .timer-button:hover {
+    background-color: #ff7b7b;
+}
+
+body.retro-theme .timer-button:hover {
+    background-color: #cc7c35;
+}
+
+body.silver-theme .timer-button:hover {
+    background-color: #ef5350;
+}
+
+/* 重置按钮图标颜色 */
+/* 所有主题下的重置按钮图标都应该是白色的，因为按钮背景是红色调 */
+.timer-icon {
+    filter: brightness(2); /* 使图标变白 */
+}

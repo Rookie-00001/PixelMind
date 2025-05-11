@@ -1,0 +1,159 @@
+/* 基础样式 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+}
+
+body {
+    color: #333;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f8f9fa;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: background-color 0.5s ease;
+}
+
+/* 星星背景 */
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: #333;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.2; }
+    100% { opacity: 0.8; }
+}
+
+/* 主容器样式 */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    max-width: 1200px;
+    padding: 20px;
+    margin-top: 20px;
+    transition: width 1.5s ease, max-width 1.5s ease, padding 1.5s ease, margin 1.5s ease;
+}
+
+body.fullscreen .main-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* 容器样式 */
+.container {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 30px;
+    transition: gap 1.5s ease;
+}
+
+body.fullscreen .container {
+    gap: 0;
+}
+
+/* 页脚信息 */
+.footer {
+    width: 100%;
+    padding: 20px;
+    margin-top: 40px;
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+    border-top: 1px solid #eee;
+    transition: all 0.5s ease, opacity 1s ease, transform 1s ease;
+}
+
+body.fullscreen .footer {
+    opacity: 0;
+    transform: translateY(100%);
+    pointer-events: none;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-description {
+    margin-bottom: 5px;
+}
+
+.footer-author {
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.footer-copyright {
+    font-size: 12px;
+}
+
+/* 状态指示器 */
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.status-on {
+    background-color: #4caf50;
+    box-shadow: 0 0 5px #4caf50;
+}
+
+.status-off {
+    background-color: #f44336;
+}
+
+/* 导航链接调整为图标按钮 */
+.navbar-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 5px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+/* 导航链接悬停效果 */
+.navbar-link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 标题样式调整 */
+.navbar-title {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+/* 设置页面图标（favicon） */
+link[rel="icon"] {
+    height: 32px;
+    width: 32px;
+}
