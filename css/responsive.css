@@ -299,3 +299,33 @@
         flex: 1;
     }
 }
+
+/* 移动设备全屏时的优化 */
+@media (max-width: 767px) {
+    /* 处理iOS Safari的全屏问题 */
+    html.ios-fullscreen,
+    html.ios-fullscreen body {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    
+    /* 为不支持orientation API的浏览器提供回退样式 */
+    body.fullscreen-no-api .scene-container {
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+}
+
+/* 特别处理一些问题设备 */
+@supports (-webkit-touch-callout: none) {
+    /* iOS设备特定修复 */
+    body.fullscreen .scene-container {
+        height: -webkit-fill-available;
+    }
+}
