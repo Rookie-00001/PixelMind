@@ -122,21 +122,27 @@ function startNoise() {
                 playSoundByType('nature');
                 break;
             case 'scene-night':
+            case 'scene-night2': // 夜晚2使用相同音效
                 playSoundByType('night');
                 break;
             case 'scene-forest':
+            case 'scene-jingling': // 精灵森林使用森林音效
                 playSoundByType('forest');
                 break;
             case 'scene-city':
+            case 'scene-city2': // 初始城市2使用相同音效
                 playSoundByType('city');
                 break;
             case 'scene-book':
                 playSoundByType('rain');
                 break;
             case 'scene-jiuguan':
+            case 'scene-jiuguan2': // 酒馆2使用相同音效
+            case 'scene-jiuguan3': // 酒馆3使用相同音效
                 playSoundByType('coffee');
                 break;
             case 'scene-BOSS':
+            case 'scene-BOSS2': // BOSS战2使用相同音效
                 playSoundByType('boss');
                 break;
             default:
