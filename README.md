@@ -1,6 +1,7 @@
 # PixelMind 专注空间
 
-[PixelMind Logo](icons/logo.svg)
+![logo](https://github.com/user-attachments/assets/e42d32b4-1cf5-4f23-9cc9-0e463fb26ec7)
+
 
 PixelMind 专注空间是一个帮助您集中注意力、提高工作效率的白噪音放松工具。通过精心设计的像素风场景和多种音效选择，为您创造专注、放松的工作环境。
 
