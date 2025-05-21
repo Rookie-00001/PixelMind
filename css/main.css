@@ -157,3 +157,11 @@ link[rel="icon"] {
     height: 32px;
     width: 32px;
 }
+
+.footer-disclaimer {
+    font-size: 14px; /* 与其他页脚文本保持一致 */
+    color: #777;
+    margin-top: 5px;
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+    line-height: 1.6;
+}
