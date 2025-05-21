@@ -4,12 +4,83 @@
 let currentScene = 'scene-sao';
 let aspectRatio = '16:10';
 let isFullscreen = false;
+let animationSpeed = 1.0; // 默认为1.0倍速
 
 // 用户上传的文件
 let userFiles = {
     images: [],
     videos: []
 };
+
+// 初始化视频场景的平滑循环
+function initVideoScenes() {
+    const videoScenes = document.querySelectorAll('video.scene');
+    
+    videoScenes.forEach(video => {
+        // 设置初始播放速度
+        video.playbackRate = animationSpeed;
+        
+        // 在视频接近结束时触发过渡效果
+        video.addEventListener('timeupdate', function() {
+            // 当视频接近结束时(剩余0.5秒)，开始淡出效果
+            if (this.duration - this.currentTime < 0.5 && this.duration > 0) {
+                // 开始应用淡出效果
+                this.style.opacity = '0';
+                
+                // 淡出后重置视频并淡入
+                setTimeout(() => {
+                    this.currentTime = 0;
+                    this.style.opacity = '1';
+                }, 400);
+            }
+        });
+        
+        // 处理视频加载错误
+        video.addEventListener('error', function() {
+            console.error('视频加载失败:', this.src);
+            // 如果当前场景是这个视频，切换到备用场景
+            if (this.id === currentScene) {
+                changeScene('scene-forest'); // 切换到静态图片场景作为备用
+                document.getElementById('scene-button').querySelector('.current-scene').textContent = '森林探险';
+            }
+        });
+    });
+    
+    // 为用户上传的视频容器添加相同的处理
+    document.querySelectorAll('.user-video-container video').forEach(video => {
+        video.playbackRate = animationSpeed;
+        
+        video.addEventListener('timeupdate', function() {
+            if (this.duration - this.currentTime < 0.5 && this.duration > 0) {
+                this.style.opacity = '0';
+                
+                setTimeout(() => {
+                    this.currentTime = 0;
+                    this.style.opacity = '1';
+                }, 400);
+            }
+        });
+    });
+}
+
+// 添加设置动画速度的函数
+function setAnimationSpeed(speed) {
+    animationSpeed = speed;
+    updateVideoPlaybackSpeed();
+}
+
+// 更新所有视频的播放速度
+function updateVideoPlaybackSpeed() {
+    // 更新所有场景视频
+    document.querySelectorAll('video.scene').forEach(video => {
+        video.playbackRate = animationSpeed;
+    });
+    
+    // 更新用户上传的视频
+    document.querySelectorAll('.user-video-container video').forEach(video => {
+        video.playbackRate = animationSpeed;
+    });
+}
 
 // 切换场景
 function changeScene(scene) {
@@ -33,10 +104,25 @@ function changeScene(scene) {
         // 隐藏所有场景
         document.querySelectorAll('.scene').forEach(sceneElem => {
             sceneElem.classList.remove('active');
+            
+            // 如果是视频元素，暂停播放
+            if (sceneElem.tagName.toLowerCase() === 'video') {
+                sceneElem.pause();
+                // 重置过渡样式
+                sceneElem.style.transition = 'opacity 0.8s ease';
+            }
         });
         
         userContainers.forEach(container => {
             container.classList.remove('active');
+            
+            // 对于视频容器，也暂停其中的视频
+            const video = container.querySelector('video');
+            if (video) {
+                video.pause();
+                // 重置过渡样式
+                video.style.transition = 'opacity 0.8s ease';
+            }
         });
         
         // 显示选中的场景
@@ -44,6 +130,25 @@ function changeScene(scene) {
             const userContainer = document.getElementById(scene);
             if (userContainer) {
                 userContainer.classList.add('active');
+                
+                // 如果是视频容器，预加载并准备播放
+                const video = userContainer.querySelector('video');
+                if (video) {
+                    // 确保视频已加载
+                    if (video.readyState >= 3) { // HAVE_FUTURE_DATA或更高
+                        prepareVideoForPlaying(video);
+                    } else {
+                        // 如果视频尚未加载，添加加载事件监听器
+                        video.addEventListener('canplay', function onCanPlay() {
+                            prepareVideoForPlaying(video);
+                            video.removeEventListener('canplay', onCanPlay);
+                        });
+                        
+                        // 开始加载视频
+                        video.load();
+                    }
+                }
+                
                 setTimeout(() => {
                     userContainer.style.opacity = '1';
                 }, 50);
@@ -52,6 +157,24 @@ function changeScene(scene) {
             const newSceneElem = document.getElementById(scene);
             if (newSceneElem) {
                 newSceneElem.classList.add('active');
+                
+                // 如果是视频元素，预加载并准备播放
+                if (newSceneElem.tagName.toLowerCase() === 'video') {
+                    // 确保视频已加载
+                    if (newSceneElem.readyState >= 3) { // HAVE_FUTURE_DATA或更高
+                        prepareVideoForPlaying(newSceneElem);
+                    } else {
+                        // 如果视频尚未加载，添加加载事件监听器
+                        newSceneElem.addEventListener('canplay', function onCanPlay() {
+                            prepareVideoForPlaying(newSceneElem);
+                            newSceneElem.removeEventListener('canplay', onCanPlay);
+                        });
+                        
+                        // 开始加载视频
+                        newSceneElem.load();
+                    }
+                }
+                
                 setTimeout(() => {
                     newSceneElem.style.opacity = '1';
                 }, 50);
@@ -69,6 +192,33 @@ function changeScene(scene) {
             });
         }
     }, 400); // 等待淡出动画完成
+}
+
+// 准备视频播放的辅助函数
+function prepareVideoForPlaying(videoElement) {
+    // 从头开始播放
+    videoElement.currentTime = 0;
+    
+    // 确保视频设置正确
+    videoElement.loop = true;
+    videoElement.muted = true;
+    videoElement.playbackRate = animationSpeed; // 应用当前的播放速度
+    
+    // 播放视频
+    const playPromise = videoElement.play();
+    
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            console.error('视频播放失败:', error);
+            
+            // 如果自动播放被阻止，添加点击事件以允许用户交互后播放
+            document.addEventListener('click', function enableAutoplay() {
+                videoElement.play().then(() => {
+                    document.removeEventListener('click', enableAutoplay);
+                }).catch(err => console.error('用户交互后播放仍失败:', err));
+            });
+        });
+    }
 }
 
 // 切换全屏模式
@@ -186,6 +336,44 @@ function addSceneOption(id, name, type) {
     scenesDropdown.appendChild(sceneOption);
 }
 
+// 处理上传的视频文件
+function handleUserVideoUpload(file, fileId, fileName, displayName, videoSrc) {
+    // 创建视频容器
+    const userVideoContainer = document.createElement('div');
+    userVideoContainer.className = 'user-video-container';
+    userVideoContainer.id = 'user-' + fileId;
+    
+    // 创建视频元素
+    const videoElement = document.createElement('video');
+    videoElement.className = 'media-element';
+    videoElement.src = videoSrc;
+    videoElement.autoplay = true;
+    videoElement.loop = true;
+    videoElement.muted = true;
+    videoElement.playbackRate = animationSpeed;
+    videoElement.style.width = '100%';
+    videoElement.style.height = '100%';
+    videoElement.style.objectFit = 'cover';
+    
+    // 添加平滑循环处理
+    videoElement.addEventListener('timeupdate', function() {
+        if (this.duration - this.currentTime < 0.5 && this.duration > 0) {
+            this.style.opacity = '0';
+            
+            setTimeout(() => {
+                this.currentTime = 0;
+                this.style.opacity = '1';
+            }, 400);
+        }
+    });
+    
+    // 添加到容器中
+    userVideoContainer.appendChild(videoElement);
+    document.querySelector('.scene-container').appendChild(userVideoContainer);
+    
+    return userVideoContainer;
+}
+
 // 添加用户文件到列表
 function addUserFile(id, name, type, src) {
     // 添加到用户文件数组
@@ -301,6 +489,12 @@ function getCurrentScene() {
     return currentScene;
 }
 
+// 初始化场景管理器
+function initSceneManager() {
+    // 初始化视频场景平滑循环
+    initVideoScenes();
+}
+
 // 导出API
 window.ScenesManager = {
     changeScene,
@@ -311,5 +505,13 @@ window.ScenesManager = {
     updateUserFilesList,
     deleteUserFile,
     setAspectRatio,
-    getCurrentScene
+    getCurrentScene,
+    initSceneManager,
+    handleUserVideoUpload,
+    setAnimationSpeed
 };
+
+// 当文档加载完成后初始化场景管理器
+document.addEventListener('DOMContentLoaded', function() {
+    initSceneManager();
+});
