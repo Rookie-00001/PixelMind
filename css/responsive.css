@@ -1,74 +1,301 @@
-/* responsive.css - 更新响应式设计中的字体大小 */
+/* responsive.css - 更新响应式设计中的字体大小和布局 */
 
-/* 响应式设计 */
-@media (max-width: 768px) {
-    /* 现有的响应式规则保持不变 */
+/* 桌面与大型设备 (1200px以上) */
+@media (min-width: 1201px) {
+    /* 保持现有布局 - 左右排列 */
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
+    .scene-container {
+        flex: 1;
+        min-width: 350px;
+        max-width: calc(100% - 280px);
+    }
+    
+    .controls {
+        width: 250px;
+    }
+}
+
+/* 中等设备 (平板电脑, 768px - 1200px) */
+@media (min-width: 768px) and (max-width: 1200px) {
+    /* 平板电脑上也采用左右布局，但调整比例 */
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
+    .scene-container {
+        flex: 2;
+        min-width: 300px;
+    }
+    
+    .controls {
+        flex: 1;
+        min-width: 220px;
+        max-width: 250px;
+    }
+    
+    /* 调整导航栏在平板上的样式 */
+    .navbar-title {
+        font-size: 20px;
+    }
+    
+    /* 调整控制区域在平板上的布局 */
+    .control-button {
+        padding: 8px 10px;
+    }
     
     /* 响应式字体大小调整 - 所有主题 */
     body {
-        font-size: 16px; /* 从14px增加到16px */
+        font-size: 16px;
     }
     
     .navbar-title {
-        font-size: 20px; /* 从18px增加到20px */
+        font-size: 20px;
     }
     
     .timer-display {
-        font-size: 32px; /* 从28px增加到32px */
+        font-size: 32px;
     }
     
     .control-button {
-        font-size: 16px; /* 从14px增加到16px */
+        font-size: 16px;
         padding: 8px 12px;
     }
     
     .modal-title {
-        font-size: 22px; /* 从20px增加到22px */
+        font-size: 22px;
     }
     
     .scene-option,
     .sound-option {
-        font-size: 15px; /* 从13px增加到15px */
+        font-size: 15px;
         padding: 8px 10px;
     }
     
     .footer {
-        font-size: 12px; /* 从10px增加到12px */
+        font-size: 12px;
     }
 }
 
-/* 更小屏幕的调整 */
-@media (max-width: 480px) {
-    body {
-        font-size: 15px; /* 从13px增加到15px */
+/* 手机设备 (小于 768px) */
+@media (max-width: 767px) {
+    /* 手机上采用上下布局 */
+    .main-container {
+        padding: 10px;
+        margin-top: 10px;
+    }
+    
+    .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .scene-container {
+        width: 100%;
+        min-width: 100%;
+        margin: 0 auto;
+    }
+    
+    .controls {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    /* 特定控件需要占据整行 */
+    .controls .focus-timer,
+    .controls .sound-selector,
+    .controls .slider-container {
+        grid-column: 1 / -1; /* 占据整行 */
+    }
+    
+    /* 导航栏在手机上的调整 */
+    .navbar {
+        height: auto;
+        padding: 10px;
+        flex-wrap: wrap;
     }
     
     .navbar-title {
-        font-size: 18px; /* 从16px增加到18px */
+        font-size: 18px;
+        width: 100%;
+        margin-bottom: 5px;
+        justify-content: center;
+    }
+    
+    .navbar-links {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* 下拉菜单位置调整 */
+    .scenes-dropdown,
+    .sound-dropdown {
+        position: fixed !important;
+        left: 5% !important;
+        width: 90% !important;
+        top: 50% !important;
+        transform: translateY(-50%);
+        max-height: 60vh;
+        z-index: 1000;
+    }
+    
+    /* 页脚在手机上的调整 */
+    .footer {
+        margin-top: 20px;
+        padding: 10px;
+    }
+    
+    /* 控制按钮在手机上的大小调整 */
+    .control-button {
+        height: 45px;
+        font-size: 14px;
+        padding: 8px;
+    }
+    
+    /* 全屏按钮在手机上的位置 */
+    .fullscreen-button {
+        top: 5px;
+        right: 5px;
+        width: 35px;
+        height: 35px;
+    }
+    
+    /* 退出全屏按钮在手机上的位置 */
+    .exit-fullscreen-button {
+        top: 10px;
+        right: 10px;
+    }
+    
+    /* 确保模态窗口在手机上的合适显示 */
+    .modal-content {
+        width: 95%;
+        max-width: 95%;
+        padding: 15px;
+        max-height: 80vh;
+    }
+    
+    /* 更小屏幕的调整 */
+    body {
+        font-size: 15px;
+    }
+    
+    .navbar-title {
+        font-size: 18px;
     }
     
     .timer-display {
-        font-size: 28px; /* 从24px增加到28px */
+        font-size: 28px;
     }
     
     .control-button {
-        font-size: 15px; /* 从13px增加到15px */
+        font-size: 14px;
         padding: 7px 10px;
     }
     
     .modal-title {
-        font-size: 20px; /* 从18px增加到20px */
+        font-size: 20px;
     }
     
     .scene-option,
     .sound-option {
-        font-size: 14px; /* 从12px增加到14px */
+        font-size: 14px;
         padding: 7px 9px;
     }
     
     .settings-option label,
     .color-picker-container label,
     .upload-container p {
-        font-size: 16px; /* 从14px增加到16px */
+        font-size: 16px;
+    }
+}
+
+/* 极小设备 (小于 480px) */
+@media (max-width: 480px) {
+    .scene-container {
+        aspect-ratio: 4/3; /* 小屏幕上使用更适合的比例 */
+    }
+    
+    .controls {
+        grid-template-columns: 1fr; /* 单列布局 */
+    }
+    
+    .navbar-links {
+        gap: 5px;
+    }
+    
+    .navbar-link {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .navbar-icon {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .footer-content {
+        gap: 8px;
+    }
+    
+    /* 字体大小进一步调整 */
+    body {
+        font-size: 14px;
+    }
+    
+    .timer-display {
+        font-size: 24px;
+    }
+    
+    .footer, .footer-disclaimer {
+        font-size: 11px;
+    }
+}
+
+/* 确保在小屏幕设备上场景以正确宽高比显示 */
+@media (max-width: 767px) and (orientation: portrait) {
+    .scene-container {
+        max-height: 50vh; /* 限制场景高度以确保控制区可见 */
+    }
+}
+
+/* 横屏手机处理 */
+@media (max-width: 900px) and (orientation: landscape) {
+    .container {
+        flex-direction: row;
+    }
+    
+    .scene-container {
+        flex: 2;
+    }
+    
+    .controls {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .footer {
+        display: none; /* 在横屏手机上隐藏页脚节省空间 */
+    }
+}
+
+/* 平板电脑横屏优化 */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .container {
+        gap: 20px;
+    }
+    
+    .scene-container {
+        flex: 3;
+    }
+    
+    .controls {
+        flex: 1;
     }
 }
