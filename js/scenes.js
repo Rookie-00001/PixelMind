@@ -476,7 +476,7 @@ function toggleFullscreen() {
     }
 }
 
-// 处理移动设备全屏 - 新增函数
+// 处理移动设备全屏 - 更新后的函数
 function handleMobileFullscreen(sceneContainer) {
     // 锁定屏幕方向为横屏（如果浏览器支持）
     if (screen.orientation && screen.orientation.lock) {
@@ -485,41 +485,55 @@ function handleMobileFullscreen(sceneContainer) {
         });
     }
     
-    // 如果设备已经处于横屏模式，不需要旋转
-    if (window.innerWidth > window.innerHeight) {
-        sceneContainer.style.transform = 'none';
+    // 检测当前方向
+    const isPortrait = window.innerHeight > window.innerWidth;
+    
+    if (isPortrait) {
+        // 竖屏状态 - CSS会处理旋转和填充
+        document.documentElement.classList.add('fullscreen-portrait');
     } else {
-        sceneContainer.style.transform = 'rotate(90deg)';
+        // 横屏状态 - 简单填满
+        document.documentElement.classList.add('fullscreen-landscape');
     }
     
-    // 隐藏滚动条
+    // 隐藏滚动条和固定body
     document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.height = '100%';
     
     // 监听方向变化
     window.addEventListener('orientationchange', updateMobileFullscreen);
     window.addEventListener('resize', updateMobileFullscreen);
 }
 
-// 更新移动设备全屏状态 - 新增函数
+// 更新移动设备全屏状态 - 更新后的函数
 function updateMobileFullscreen() {
     if (!isFullscreen) return;
     
-    const sceneContainer = document.querySelector('.scene-container');
+    // 检测当前方向
+    const isPortrait = window.innerHeight > window.innerWidth;
     
-    // 根据当前方向调整
-    if (window.innerWidth > window.innerHeight) {
-        // 横屏
-        sceneContainer.style.transform = 'none';
+    if (isPortrait) {
+        document.documentElement.classList.add('fullscreen-portrait');
+        document.documentElement.classList.remove('fullscreen-landscape');
     } else {
-        // 竖屏
-        sceneContainer.style.transform = 'rotate(90deg)';
+        document.documentElement.classList.add('fullscreen-landscape');
+        document.documentElement.classList.remove('fullscreen-portrait');
     }
 }
 
-// 退出移动设备全屏 - 新增函数
+// 退出移动设备全屏 - 更新后的函数
 function exitMobileFullscreen() {
-    // 恢复滚动
+    // 恢复滚动和body样式
     document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.height = '';
+    
+    // 移除方向类
+    document.documentElement.classList.remove('fullscreen-portrait');
+    document.documentElement.classList.remove('fullscreen-landscape');
     
     // 移除监听器
     window.removeEventListener('orientationchange', updateMobileFullscreen);
@@ -528,6 +542,9 @@ function exitMobileFullscreen() {
     // 恢复场景容器样式
     const sceneContainer = document.querySelector('.scene-container');
     sceneContainer.style.transform = '';
+    sceneContainer.style.width = '';
+    sceneContainer.style.height = '';
+    sceneContainer.style.left = '';
     
     // 如果有锁定屏幕方向，尝试解锁
     if (screen.orientation && screen.orientation.unlock) {
