@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="css/modals.css">
     <link rel="stylesheet" href="css/fonts.css"> <!-- 确保 fonts.css 在 responsive.css 之前 -->
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/font-toggle.css">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -56,16 +57,25 @@
                     </svg>
                 </button>
                 
-                <!-- 预设场景 -->
-                <img id="scene-sao" src="images/scenes/sao.png" class="scene active" alt="SAO">
-                <img id="scene-dilao" src="images/scenes/dilao.png" class="scene" alt="Dilao">
-                <img id="scene-nature" src="images/scenes/nature.png" class="scene" alt="Nature">
-                <img id="scene-night" src="images/scenes/night.png" class="scene" alt="Night">
+                <!-- 预设场景 - 替换图片为视频和添加新场景 -->
+                <!-- 视频场景 -->
+                <video id="scene-sao" src="images/videos/sao.mp4" class="scene active" autoplay loop muted></video>
+                <video id="scene-dilao" src="images/videos/dilao.mp4" class="scene" autoplay loop muted></video>
+                <video id="scene-nature" src="images/videos/nature.mp4" class="scene" autoplay loop muted></video>
+                <video id="scene-night" src="images/videos/night.mp4" class="scene" autoplay loop muted></video>
+
+                <!-- 图片场景 -->
                 <img id="scene-forest" src="images/scenes/forest.png" class="scene" alt="Forest">
                 <img id="scene-city" src="images/scenes/city.png" class="scene" alt="City">
+                <img id="scene-city2" src="images/scenes/city2.png" class="scene" alt="City 2">
                 <img id="scene-book" src="images/scenes/book.png" class="scene" alt="Book">
                 <img id="scene-jiuguan" src="images/scenes/jiuguan.png" class="scene" alt="Jiuguan">
+                <img id="scene-jiuguan2" src="images/scenes/jiuguan2.png" class="scene" alt="Jiuguan 2">
+                <img id="scene-jiuguan3" src="images/scenes/jiuguan3.png" class="scene" alt="Jiuguan 3">
                 <img id="scene-BOSS" src="images/scenes/boss.png" class="scene" alt="Boss">
+                <img id="scene-BOSS2" src="images/scenes/boss2.png" class="scene" alt="Boss 2">
+                <img id="scene-jingling" src="images/scenes/jingling.png" class="scene" alt="Jingling">
+                <img id="scene-night2" src="images/scenes/night.png" class="scene" alt="Night 2">
                 
                 <!-- 用户上传图片/视频容器 -->
                 <div class="user-image-container">
@@ -132,11 +142,17 @@
         <div class="scene-option" data-scene="scene-dilao">地牢</div>
         <div class="scene-option" data-scene="scene-nature">自然风光</div>
         <div class="scene-option" data-scene="scene-night">夜晚</div>
+        <div class="scene-option" data-scene="scene-night2">夜晚2</div>
         <div class="scene-option" data-scene="scene-forest">森林探险</div>
+        <div class="scene-option" data-scene="scene-jingling">精灵森林</div>
         <div class="scene-option" data-scene="scene-city">初始城市</div>
+        <div class="scene-option" data-scene="scene-city2">初始城市2</div>
         <div class="scene-option" data-scene="scene-book">书房微雨</div>
         <div class="scene-option" data-scene="scene-jiuguan">酒馆</div>
+        <div class="scene-option" data-scene="scene-jiuguan2">酒馆2</div>
+        <div class="scene-option" data-scene="scene-jiuguan3">酒馆3</div>
         <div class="scene-option" data-scene="scene-BOSS">BOSS战</div>
+        <div class="scene-option" data-scene="scene-BOSS2">BOSS战2</div>
         <!-- 用户自定义场景会动态添加到这里 -->
     </div>
 
@@ -163,8 +179,15 @@
                 <button class="close-button">&times;</button>
             </div>
             <div class="settings-option">
-                <label for="animation-speed">动画速度</label>
+                <label for="animation-speed">动画速度 <span id="speed-display">1.00x</span></label>
                 <input type="range" id="animation-speed" min="1" max="5" value="3">
+            </div>
+            <div class="settings-option">
+                <label for="pixel-font-toggle">像素字体</label>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="pixel-font-toggle" checked>
+                    <span class="toggle-slider"></span>
+                </div>
             </div>
             <div class="settings-option">
                 <label for="aspect-ratio">场景比例</label>
@@ -203,8 +226,8 @@
                     <div class="theme-button theme-silver" data-theme="silver" data-tooltip="银灰"></div>
                     <div class="theme-button theme-wood" data-theme="wood" data-tooltip="木色"></div>
                     <div class="theme-button theme-green" data-theme="green" data-tooltip="绿叶"></div>
-                    <div class="theme-button theme-pixel active" data-theme="pixel" data-tooltip="像素"></div>
-                    <div class="theme-button theme-retro" data-theme="retro" data-tooltip="复古"></div>
+                    <div class="theme-button theme-pixel" data-theme="pixel" data-tooltip="像素"></div>
+                    <div class="theme-button theme-retro active" data-theme="retro" data-tooltip="复古"></div>
                     <div class="theme-button theme-custom" data-theme="custom" data-tooltip="自定义颜色"></div>
                 </div>
             </div>
@@ -253,7 +276,10 @@
                 由LjhaiDj开发 | 设计：LjhaiDj Design | 音效：Net Resources
             </div>
             <div class="footer-copyright">
-                © 2025 PixelMind 专注空间 | 保留所有权利 | 版本号：v1.0.0
+                © 2025 PixelMind 专注空间 | 保留所有权利 | 版本号：v1.0.1
+            </div>
+            <div class="footer-disclaimer">
+                部分内容来源于网络，如有侵权联系删除
             </div>
         </div>
     </footer>
