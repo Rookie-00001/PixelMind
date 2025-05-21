@@ -329,3 +329,32 @@
         height: -webkit-fill-available;
     }
 }
+
+/* 全屏时的特殊方向类 */
+html.fullscreen-portrait body.fullscreen .scene-container {
+    /* 竖屏设备的特殊处理 */
+    transform: rotate(90deg) translateY(-100%);
+    transform-origin: top left;
+    width: 100vh;
+    height: 100vw;
+    left: 100%;
+}
+
+html.fullscreen-landscape body.fullscreen .scene-container {
+    /* 横屏设备直接填满 */
+    transform: none;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+}
+
+/* iOS特殊处理 */
+@supports (-webkit-touch-callout: none) {
+    html.fullscreen-portrait body.fullscreen .scene-container {
+        /* iOS中的特殊调整 */
+        width: 100vh;
+        height: 100vw;
+        /* 处理iOS底部工具栏 */
+        height: calc(100vw - env(safe-area-inset-bottom));
+    }
+}
