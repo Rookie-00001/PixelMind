@@ -68,7 +68,15 @@ function setupEventListeners() {
     
     // 退出全屏按钮
     const exitFullscreenBtn = document.getElementById('exit-fullscreen-btn');
-    exitFullscreenBtn.addEventListener('click', ScenesManager.toggleFullscreen);
+    exitFullscreenBtn.addEventListener('click', function() {
+        ScenesManager.toggleFullscreen();
+        
+        // 确保在移动设备上正确退出全屏
+        if (window.innerWidth <= 767) {
+            document.body.classList.remove('fullscreen');
+            ScenesManager.exitMobileFullscreen();
+        }
+    });
     
     // 播放/暂停按钮
     const playPauseButton = document.getElementById('play-pause');
@@ -265,7 +273,7 @@ function setupEventListeners() {
                 const fileId = 'image-' + Date.now();
                 const fileName = file.name;
                 // 去除文件后缀名，用于显示
-                const displayName = getFileNameWithoutExtension(fileName);
+                const displayName = Utils.getFileNameWithoutExtension(fileName);
                 
                 // 创建用户图片容器
                 const userImageContainer = document.createElement('div');
@@ -315,7 +323,7 @@ function setupEventListeners() {
                 const fileId = 'video-' + Date.now();
                 const fileName = file.name;
                 // 去除文件后缀名，用于显示
-                const displayName = getFileNameWithoutExtension(fileName);
+                const displayName = Utils.getFileNameWithoutExtension(fileName);
                 
                 // 使用新的处理函数创建视频容器
                 const userVideoContainer = ScenesManager.handleUserVideoUpload(
@@ -422,4 +430,20 @@ function setupEventListeners() {
         document.addEventListener('pointermove', onPointerMove);
         document.addEventListener('pointerup', onPointerUp);
     });
+    
+    // 检测设备方向变化
+    window.matchMedia("(orientation: portrait)").addEventListener("change", function(e) {
+        // 如果正在全屏模式下，更新方向
+        if (document.body.classList.contains('fullscreen') && window.innerWidth <= 767) {
+            ScenesManager.updateMobileFullscreen();
+        }
+    });
+    
+    // 处理屏幕尺寸变化 - 使用节流函数避免过多调用
+    window.addEventListener('resize', Utils.throttle(function() {
+        // 针对全屏模式的调整
+        if (document.body.classList.contains('fullscreen') && window.innerWidth <= 767) {
+            ScenesManager.updateMobileFullscreen();
+        }
+    }, 100));
 }
