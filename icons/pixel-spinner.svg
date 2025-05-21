@@ -1,0 +1,18 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .pixelSpinner {
+      fill: #ffffff;
+    }
+  </style>
+  <g class="pixelSpinner">
+    <!-- 8帧像素风格加载动画 -->
+    <rect x="28" y="8" width="8" height="8" />
+    <rect x="36" y="16" width="8" height="8" />
+    <rect x="44" y="28" width="8" height="8" />
+    <rect x="36" y="40" width="8" height="8" />
+    <rect x="28" y="48" width="8" height="8" />
+    <rect x="16" y="40" width="8" height="8" />
+    <rect x="8" y="28" width="8" height="8" />
+    <rect x="16" y="16" width="8" height="8" />
+  </g>
+</svg>
