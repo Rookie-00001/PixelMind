@@ -25,6 +25,65 @@ body.fullscreen .scene-container {
     aspect-ratio: auto;
 }
 
+/* 手机设备全屏特殊处理 */
+@media (max-width: 767px) {
+    body.fullscreen .scene-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        min-width: 100%;
+        border: none;
+        border-radius: 0;
+        z-index: 1000;
+        aspect-ratio: auto;
+        transform: rotate(90deg);
+        transform-origin: center center;
+        transition: transform 0.3s ease;
+        max-height: none;
+    }
+    
+    /* 如果设备已经处于横屏模式，则不需要旋转 */
+    @media (orientation: landscape) {
+        body.fullscreen .scene-container {
+            transform: none;
+        }
+    }
+    
+    /* 控制全屏时隐藏其他元素 */
+    body.fullscreen .navbar,
+    body.fullscreen .controls,
+    body.fullscreen .footer {
+        display: none;
+    }
+    
+    /* 全屏时确保视频/图片完全覆盖 */
+    body.fullscreen .scene.active,
+    body.fullscreen .user-image-container.active,
+    body.fullscreen .user-video-container.active {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    /* 退出全屏按钮样式调整 */
+    body.fullscreen .exit-fullscreen-button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        z-index: 1002;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    body.fullscreen .exit-fullscreen-icon {
+        width: 30px;
+        height: 30px;
+    }
+}
+
 .scene-container.square {
     aspect-ratio: 1/1;
 }
@@ -192,4 +251,62 @@ body.fullscreen .exit-fullscreen-button {
 .aspect-ratio-option.active {
     background-color: #6c63ff;
     color: white;
+}
+
+/* 加载指示器样式 */
+.loading-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.loading-indicator.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+.loading-text {
+    color: #fff;
+    margin-top: 15px;
+    font-size: 16px;
+    font-family: 'Zpix', 'Press Start 2P', monospace;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 像素风格的加载动画替代方案 */
+body.pixel-theme .spinner,
+body.retro-theme .spinner {
+    border: none;
+    width: 64px;
+    height: 64px;
+    background-image: url('icons/pixel-spinner.svg');
+    background-size: contain;
+    animation: pixel-spin 0.8s steps(8) infinite;
+}
+
+@keyframes pixel-spin {
+    to { transform: rotate(360deg); }
 }
