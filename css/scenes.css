@@ -64,17 +64,29 @@ body.fullscreen .scene-container {
         }
     }
     
+    /* 控制全屏时隐藏其他元素 */
+    body.fullscreen .navbar,
+    body.fullscreen .controls,
+    body.fullscreen .footer {
+        display: none;
+    }
+    
     /* 全屏时确保视频/图片完全覆盖 */
     body.fullscreen .scene.active,
-    body.fullscreen .user-image-container.active video,
-    body.fullscreen .user-video-container.active video,
-    body.fullscreen .user-image-container.active img,
-    body.fullscreen .user-video-container.active img {
+    body.fullscreen .user-image-container.active,
+    body.fullscreen .user-video-container.active {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
-}
+    
+    body.fullscreen .scene.active video,
+    body.fullscreen .user-image-container.active img,
+    body.fullscreen .user-video-container.active video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
     
     /* 退出全屏按钮样式调整 */
     body.fullscreen .exit-fullscreen-button {
@@ -318,4 +330,22 @@ body.retro-theme .spinner {
 
 @keyframes pixel-spin {
     to { transform: rotate(360deg); }
+}
+
+/* 确保全屏时视频/图片铺满 */
+body.fullscreen .scene-container video,
+body.fullscreen .scene-container img,
+body.fullscreen .user-image-container img,
+body.fullscreen .user-video-container video {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* 全屏时针对iOS的特殊处理 */
+@supports (-webkit-touch-callout: none) {
+    body.fullscreen .scene-container {
+        -webkit-backface-visibility: hidden;
+        -webkit-transform-style: preserve-3d;
+    }
 }
