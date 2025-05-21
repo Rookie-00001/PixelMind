@@ -1,0 +1,80 @@
+/* 字体切换样式 */
+body.default-font {
+    font-family: "Microsoft YaHei", "微软雅黑", sans-serif !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    letter-spacing: normal !important;
+    -webkit-font-smoothing: auto !important;
+    -moz-osx-font-smoothing: auto !important;
+    font-smooth: auto !important;
+    text-rendering: auto !important;
+}
+
+body.default-font * {
+    font-family: "Microsoft YaHei", "微软雅黑", sans-serif !important;
+}
+
+/* 开关按钮样式 */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-top: 10px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: #6c63ff;
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+}
+
+/* 像素主题下的开关 */
+body.pixel-theme .toggle-slider {
+    background-color: #3c2e4e;
+}
+
+body.pixel-theme input:checked + .toggle-slider {
+    background-color: #764abc;
+}
+
+/* 深色主题下的开关 */
+body.dark-theme .toggle-slider {
+    background-color: #444;
+}
+
+body.dark-theme input:checked + .toggle-slider {
+    background-color: #7d56f4;
+}
