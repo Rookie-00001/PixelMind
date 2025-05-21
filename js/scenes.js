@@ -6,6 +6,12 @@ let aspectRatio = '16:10';
 let isFullscreen = false;
 let animationSpeed = 1.0; // 默认为1.0倍速
 
+// 记录已加载的资源
+let loadedResources = {
+    videos: {},
+    images: {}
+};
+
 // 用户上传的文件
 let userFiles = {
     images: [],
@@ -63,6 +69,68 @@ function initVideoScenes() {
     });
 }
 
+// 初始化懒加载
+function initLazyLoading() {
+    // 初始只加载当前场景和必要资源
+    const currentSceneElement = document.getElementById(currentScene);
+    if (currentSceneElement) {
+        preloadResource(currentSceneElement);
+    }
+    
+    // 为场景选项添加预加载
+    document.querySelectorAll('.scene-option').forEach(option => {
+        option.addEventListener('mouseover', function() {
+            const sceneId = this.getAttribute('data-scene');
+            const sceneElement = document.getElementById(sceneId);
+            if (sceneElement) {
+                preloadResource(sceneElement);
+            }
+        });
+    });
+}
+
+// 预加载资源
+function preloadResource(element) {
+    const type = element.tagName.toLowerCase();
+    const id = element.id;
+    
+    // 如果已经加载过，跳过
+    if ((type === 'video' && loadedResources.videos[id]) || 
+        (type === 'img' && loadedResources.images[id])) {
+        return;
+    }
+    
+    if (type === 'video') {
+        // 视频预加载 - 使用低质量预览或仅加载元数据
+        if (!element.preload || element.preload === 'none') {
+            element.preload = 'metadata';
+            
+            // 在后台加载更多数据
+            setTimeout(() => {
+                if (isNearCurrentScene(id)) {
+                    element.preload = 'auto';
+                }
+            }, 1000);
+        }
+        
+        loadedResources.videos[id] = true;
+    } else if (type === 'img') {
+        // 图片预加载
+        loadedResources.images[id] = true;
+    }
+}
+
+// 判断场景是否接近当前场景（用于优先加载）
+function isNearCurrentScene(sceneId) {
+    // 获取当前场景在选项列表中的位置
+    const options = Array.from(document.querySelectorAll('.scene-option'));
+    const currentIndex = options.findIndex(opt => opt.getAttribute('data-scene') === currentScene);
+    const targetIndex = options.findIndex(opt => opt.getAttribute('data-scene') === sceneId);
+    
+    // 如果在当前场景前后3个位置内，认为是"接近"
+    return Math.abs(currentIndex - targetIndex) <= 3;
+}
+
 // 添加设置动画速度的函数
 function setAnimationSpeed(speed) {
     animationSpeed = speed;
@@ -82,8 +150,80 @@ function updateVideoPlaybackSpeed() {
     });
 }
 
+// 显示加载指示器
+function showLoadingIndicator() {
+    const loadingIndicator = document.querySelector('.loading-indicator');
+    loadingIndicator.classList.add('active');
+}
+
+// 隐藏加载指示器
+function hideLoadingIndicator() {
+    const loadingIndicator = document.querySelector('.loading-indicator');
+    loadingIndicator.classList.remove('active');
+}
+
+// 加载场景
+function loadScene(scene) {
+    return new Promise((resolve, reject) => {
+        const sceneElement = document.getElementById(scene);
+        
+        if (!sceneElement) {
+            reject(new Error(`Scene element ${scene} not found`));
+            return;
+        }
+        
+        // 立即预加载
+        preloadResource(sceneElement);
+        
+        if (sceneElement.tagName.toLowerCase() === 'video') {
+            // 确保视频已加载足够数据
+            if (sceneElement.readyState >= 3) {
+                resolve(sceneElement);
+            } else {
+                // 监听加载事件
+                const loadHandler = function() {
+                    sceneElement.removeEventListener('canplay', loadHandler);
+                    resolve(sceneElement);
+                };
+                
+                sceneElement.addEventListener('canplay', loadHandler);
+                
+                // 设置超时
+                setTimeout(() => {
+                    sceneElement.removeEventListener('canplay', loadHandler);
+                    // 仍然解析以避免阻塞，但在控制台记录警告
+                    console.warn(`Loading video ${scene} timed out, continuing anyway`);
+                    resolve(sceneElement);
+                }, 5000);
+            }
+        } else {
+            // 图片元素
+            if (sceneElement.complete) {
+                resolve(sceneElement);
+            } else {
+                const loadHandler = function() {
+                    sceneElement.removeEventListener('load', loadHandler);
+                    resolve(sceneElement);
+                };
+                
+                const errorHandler = function() {
+                    sceneElement.removeEventListener('error', errorHandler);
+                    console.error(`Failed to load image ${scene}`);
+                    resolve(sceneElement); // 仍然解析以避免阻塞
+                };
+                
+                sceneElement.addEventListener('load', loadHandler);
+                sceneElement.addEventListener('error', errorHandler);
+            }
+        }
+    });
+}
+
 // 切换场景
 function changeScene(scene) {
+    // 显示加载指示器
+    showLoadingIndicator();
+    
     // 淡出当前场景
     const currentSceneElem = document.querySelector('.scene.active');
     const userContainers = document.querySelectorAll('.user-image-container, .user-video-container');
@@ -99,34 +239,33 @@ function changeScene(scene) {
         }
     });
     
-    // 延迟切换场景，等待淡出完成
-    setTimeout(() => {
-        // 隐藏所有场景
-        document.querySelectorAll('.scene').forEach(sceneElem => {
-            sceneElem.classList.remove('active');
+    // 如果是用户场景
+    if (scene.startsWith('user-')) {
+        setTimeout(() => {
+            // 隐藏所有场景
+            document.querySelectorAll('.scene').forEach(sceneElem => {
+                sceneElem.classList.remove('active');
+                
+                // 如果是视频元素，暂停播放
+                if (sceneElem.tagName.toLowerCase() === 'video') {
+                    sceneElem.pause();
+                    // 重置过渡样式
+                    sceneElem.style.transition = 'opacity 0.8s ease';
+                }
+            });
             
-            // 如果是视频元素，暂停播放
-            if (sceneElem.tagName.toLowerCase() === 'video') {
-                sceneElem.pause();
-                // 重置过渡样式
-                sceneElem.style.transition = 'opacity 0.8s ease';
-            }
-        });
-        
-        userContainers.forEach(container => {
-            container.classList.remove('active');
+            userContainers.forEach(container => {
+                container.classList.remove('active');
+                
+                // 对于视频容器，也暂停其中的视频
+                const video = container.querySelector('video');
+                if (video) {
+                    video.pause();
+                    // 重置过渡样式
+                    video.style.transition = 'opacity 0.8s ease';
+                }
+            });
             
-            // 对于视频容器，也暂停其中的视频
-            const video = container.querySelector('video');
-            if (video) {
-                video.pause();
-                // 重置过渡样式
-                video.style.transition = 'opacity 0.8s ease';
-            }
-        });
-        
-        // 显示选中的场景
-        if (scene.startsWith('user-')) {
             const userContainer = document.getElementById(scene);
             if (userContainer) {
                 userContainer.classList.add('active');
@@ -151,47 +290,105 @@ function changeScene(scene) {
                 
                 setTimeout(() => {
                     userContainer.style.opacity = '1';
+                    hideLoadingIndicator();
                 }, 50);
+            } else {
+                hideLoadingIndicator();
             }
-        } else {
-            const newSceneElem = document.getElementById(scene);
-            if (newSceneElem) {
+            
+            // 更新当前场景
+            currentScene = scene;
+            
+            // 如果正在播放音频，切换到新场景的音频
+            if (AudioManager.isPlaying()) {
+                AudioManager.fadeOutAudio().then(() => {
+                    AudioManager.stopNoise();
+                    AudioManager.startNoise();
+                });
+            }
+        }, 400);
+    } else {
+        // 加载系统场景
+        loadScene(scene).then(newSceneElem => {
+            setTimeout(() => {
+                // 隐藏所有场景
+                document.querySelectorAll('.scene').forEach(sceneElem => {
+                    sceneElem.classList.remove('active');
+                    
+                    // 如果是视频元素，暂停播放
+                    if (sceneElem.tagName.toLowerCase() === 'video') {
+                        sceneElem.pause();
+                        // 重置过渡样式
+                        sceneElem.style.transition = 'opacity 0.8s ease';
+                    }
+                });
+                
+                userContainers.forEach(container => {
+                    container.classList.remove('active');
+                    
+                    // 对于视频容器，也暂停其中的视频
+                    const video = container.querySelector('video');
+                    if (video) {
+                        video.pause();
+                        // 重置过渡样式
+                        video.style.transition = 'opacity 0.8s ease';
+                    }
+                });
+                
                 newSceneElem.classList.add('active');
                 
                 // 如果是视频元素，预加载并准备播放
                 if (newSceneElem.tagName.toLowerCase() === 'video') {
-                    // 确保视频已加载
-                    if (newSceneElem.readyState >= 3) { // HAVE_FUTURE_DATA或更高
-                        prepareVideoForPlaying(newSceneElem);
-                    } else {
-                        // 如果视频尚未加载，添加加载事件监听器
-                        newSceneElem.addEventListener('canplay', function onCanPlay() {
-                            prepareVideoForPlaying(newSceneElem);
-                            newSceneElem.removeEventListener('canplay', onCanPlay);
-                        });
-                        
-                        // 开始加载视频
-                        newSceneElem.load();
-                    }
+                    prepareVideoForPlaying(newSceneElem);
                 }
                 
                 setTimeout(() => {
                     newSceneElem.style.opacity = '1';
+                    hideLoadingIndicator();
                 }, 50);
+                
+                // 更新当前场景
+                currentScene = scene;
+                
+                // 如果正在播放音频，切换到新场景的音频
+                if (AudioManager.isPlaying()) {
+                    AudioManager.fadeOutAudio().then(() => {
+                        AudioManager.stopNoise();
+                        AudioManager.startNoise();
+                    });
+                }
+                
+                // 预加载相邻场景
+                preloadAdjacentScenes(scene);
+            }, 400);
+        }).catch(error => {
+            console.error('Error changing scene:', error);
+            hideLoadingIndicator();
+        });
+    }
+}
+
+// 预加载相邻场景
+function preloadAdjacentScenes(currentScene) {
+    // 找出当前场景在列表中的位置
+    const sceneOptions = Array.from(document.querySelectorAll('.scene-option'));
+    const currentIndex = sceneOptions.findIndex(opt => opt.getAttribute('data-scene') === currentScene);
+    
+    if (currentIndex !== -1) {
+        // 预加载前后各2个场景
+        for (let i = Math.max(0, currentIndex - 2); i <= Math.min(sceneOptions.length - 1, currentIndex + 2); i++) {
+            if (i !== currentIndex) {
+                const sceneId = sceneOptions[i].getAttribute('data-scene');
+                const sceneElement = document.getElementById(sceneId);
+                if (sceneElement) {
+                    // 低优先级预加载
+                    setTimeout(() => {
+                        preloadResource(sceneElement);
+                    }, (Math.abs(i - currentIndex) * 1000));
+                }
             }
         }
-        
-        // 更新当前场景
-        currentScene = scene;
-        
-        // 如果正在播放音频，切换到新场景的音频
-        if (AudioManager.isPlaying()) {
-            AudioManager.fadeOutAudio().then(() => {
-                AudioManager.stopNoise();
-                AudioManager.startNoise();
-            });
-        }
-    }, 400); // 等待淡出动画完成
+    }
 }
 
 // 准备视频播放的辅助函数
@@ -231,35 +428,110 @@ function toggleFullscreen() {
     if (isFullscreen) {
         document.body.classList.add('fullscreen');
         
-        // 尝试使用浏览器原生全屏API
-        if (sceneContainer.requestFullscreen) {
-            sceneContainer.requestFullscreen();
-        } else if (sceneContainer.mozRequestFullScreen) { /* Firefox */
-            sceneContainer.mozRequestFullScreen();
-        } else if (sceneContainer.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-            sceneContainer.webkitRequestFullscreen();
-        } else if (sceneContainer.msRequestFullscreen) { /* IE/Edge */
-            sceneContainer.msRequestFullscreen();
-        }
+        // 检测是否为移动设备
+        const isMobile = window.innerWidth <= 767;
         
-        // 添加全屏改变事件监听器
-        document.addEventListener('fullscreenchange', onFullscreenChange);
-        document.addEventListener('webkitfullscreenchange', onFullscreenChange);
-        document.addEventListener('mozfullscreenchange', onFullscreenChange);
-        document.addEventListener('MSFullscreenChange', onFullscreenChange);
+        if (isMobile) {
+            // 移动设备特殊处理
+            handleMobileFullscreen(sceneContainer);
+        } else {
+            // 桌面设备使用标准全屏API
+            if (sceneContainer.requestFullscreen) {
+                sceneContainer.requestFullscreen();
+            } else if (sceneContainer.mozRequestFullScreen) { /* Firefox */
+                sceneContainer.mozRequestFullScreen();
+            } else if (sceneContainer.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                sceneContainer.webkitRequestFullscreen();
+            } else if (sceneContainer.msRequestFullscreen) { /* IE/Edge */
+                sceneContainer.msRequestFullscreen();
+            }
+            
+            // 添加全屏改变事件监听器
+            document.addEventListener('fullscreenchange', onFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+            document.addEventListener('mozfullscreenchange', onFullscreenChange);
+            document.addEventListener('MSFullscreenChange', onFullscreenChange);
+        }
     } else {
         document.body.classList.remove('fullscreen');
         
-        // 退出浏览器原生全屏
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) { /* Firefox */
-            document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { /* IE/Edge */
-            document.msExitFullscreen();
+        // 检测是否为移动设备
+        const isMobile = window.innerWidth <= 767;
+        
+        if (isMobile) {
+            // 移动设备特殊处理
+            exitMobileFullscreen();
+        } else {
+            // 桌面设备使用标准全屏API
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { /* Firefox */
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE/Edge */
+                document.msExitFullscreen();
+            }
         }
+    }
+}
+
+// 处理移动设备全屏 - 新增函数
+function handleMobileFullscreen(sceneContainer) {
+    // 锁定屏幕方向为横屏（如果浏览器支持）
+    if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(function(error) {
+            console.log('无法锁定屏幕方向: ', error);
+        });
+    }
+    
+    // 如果设备已经处于横屏模式，不需要旋转
+    if (window.innerWidth > window.innerHeight) {
+        sceneContainer.style.transform = 'none';
+    } else {
+        sceneContainer.style.transform = 'rotate(90deg)';
+    }
+    
+    // 隐藏滚动条
+    document.body.style.overflow = 'hidden';
+    
+    // 监听方向变化
+    window.addEventListener('orientationchange', updateMobileFullscreen);
+    window.addEventListener('resize', updateMobileFullscreen);
+}
+
+// 更新移动设备全屏状态 - 新增函数
+function updateMobileFullscreen() {
+    if (!isFullscreen) return;
+    
+    const sceneContainer = document.querySelector('.scene-container');
+    
+    // 根据当前方向调整
+    if (window.innerWidth > window.innerHeight) {
+        // 横屏
+        sceneContainer.style.transform = 'none';
+    } else {
+        // 竖屏
+        sceneContainer.style.transform = 'rotate(90deg)';
+    }
+}
+
+// 退出移动设备全屏 - 新增函数
+function exitMobileFullscreen() {
+    // 恢复滚动
+    document.body.style.overflow = '';
+    
+    // 移除监听器
+    window.removeEventListener('orientationchange', updateMobileFullscreen);
+    window.removeEventListener('resize', updateMobileFullscreen);
+    
+    // 恢复场景容器样式
+    const sceneContainer = document.querySelector('.scene-container');
+    sceneContainer.style.transform = '';
+    
+    // 如果有锁定屏幕方向，尝试解锁
+    if (screen.orientation && screen.orientation.unlock) {
+        screen.orientation.unlock();
     }
 }
 
@@ -334,6 +606,30 @@ function addSceneOption(id, name, type) {
     
     // 添加到下拉菜单
     scenesDropdown.appendChild(sceneOption);
+}
+
+// 检查全屏和屏幕方向API支持
+function checkFullscreenSupport() {
+    // 检测全屏API
+    const fullscreenEnabled = 
+        document.fullscreenEnabled || 
+        document.webkitFullscreenEnabled || 
+        document.mozFullScreenEnabled || 
+        document.msFullscreenEnabled;
+    
+    // 检测屏幕方向API
+    const orientationSupported = 
+        typeof screen.orientation !== 'undefined' ||
+        typeof screen.msOrientation !== 'undefined';
+    
+    // 根据支持情况调整UI或功能
+    if (!fullscreenEnabled) {
+        console.log('浏览器不完全支持全屏API，将使用替代方案');
+    }
+    
+    if (!orientationSupported) {
+        console.log('浏览器不支持屏幕方向API，方向锁定功能可能不可用');
+    }
 }
 
 // 处理上传的视频文件
@@ -493,6 +789,12 @@ function getCurrentScene() {
 function initSceneManager() {
     // 初始化视频场景平滑循环
     initVideoScenes();
+    
+    // 初始化懒加载
+    initLazyLoading();
+    
+    // 检测全屏和屏幕方向API支持
+    checkFullscreenSupport();
 }
 
 // 导出API
@@ -508,7 +810,12 @@ window.ScenesManager = {
     getCurrentScene,
     initSceneManager,
     handleUserVideoUpload,
-    setAnimationSpeed
+    setAnimationSpeed,
+    handleMobileFullscreen,
+    exitMobileFullscreen,
+    updateMobileFullscreen,
+    showLoadingIndicator,
+    hideLoadingIndicator
 };
 
 // 当文档加载完成后初始化场景管理器
