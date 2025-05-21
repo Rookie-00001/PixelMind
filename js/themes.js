@@ -1,7 +1,7 @@
 // 主题管理模块
 
 // 当前主题
-let currentTheme = 'pixel';
+let currentTheme = 'retro';
 
 // 更改主题
 function changeTheme(theme) {
@@ -45,7 +45,7 @@ function updateThemeButtons() {
 // 应用默认主题
 function applyDefaultTheme() {
     // 设置默认为像素主题
-    changeTheme('pixel');
+    changeTheme('retro');
     updateThemeButtons();
 }
 
