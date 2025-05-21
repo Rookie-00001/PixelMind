@@ -25,7 +25,7 @@ body.fullscreen .scene-container {
     aspect-ratio: auto;
 }
 
-/* 手机设备全屏特殊处理 */
+/* 手机设备全屏特殊处理 - 修改后的代码 */
 @media (max-width: 767px) {
     body.fullscreen .scene-container {
         position: fixed;
@@ -37,35 +37,44 @@ body.fullscreen .scene-container {
         border: none;
         border-radius: 0;
         z-index: 1000;
-        aspect-ratio: auto;
-        transform: rotate(90deg);
+        aspect-ratio: unset; /* 移除固定比例 */
         transform-origin: center center;
         transition: transform 0.3s ease;
         max-height: none;
     }
     
-    /* 如果设备已经处于横屏模式，则不需要旋转 */
-    @media (orientation: landscape) {
+    /* 竖屏状态下的全屏处理 */
+    @media (orientation: portrait) {
         body.fullscreen .scene-container {
-            transform: none;
+            /* 特殊变换以填满屏幕 */
+            transform: rotate(90deg) translateY(-100%);
+            transform-origin: top left;
+            width: 100vh; /* 使用视口高度作为宽度 */
+            height: 100vw; /* 使用视口宽度作为高度 */
+            left: 100%; /* 位置调整 */
         }
     }
     
-    /* 控制全屏时隐藏其他元素 */
-    body.fullscreen .navbar,
-    body.fullscreen .controls,
-    body.fullscreen .footer {
-        display: none;
+    /* 如果设备已经处于横屏模式 */
+    @media (orientation: landscape) {
+        body.fullscreen .scene-container {
+            transform: none;
+            width: 100vw;
+            height: 100vh;
+        }
     }
     
     /* 全屏时确保视频/图片完全覆盖 */
     body.fullscreen .scene.active,
-    body.fullscreen .user-image-container.active,
-    body.fullscreen .user-video-container.active {
+    body.fullscreen .user-image-container.active video,
+    body.fullscreen .user-video-container.active video,
+    body.fullscreen .user-image-container.active img,
+    body.fullscreen .user-video-container.active img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
+}
     
     /* 退出全屏按钮样式调整 */
     body.fullscreen .exit-fullscreen-button {
