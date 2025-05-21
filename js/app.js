@@ -12,8 +12,29 @@ function initializeApp() {
     // 初始化计时器显示
     TimerManager.updateFocusTimerDisplay();
     
+    // 初始化字体设置 - 默认开启像素字体
+    initFontSettings();
+    
     // 设置事件处理
     setupEventListeners();
+}
+
+// 初始化字体设置
+function initFontSettings() {
+    const pixelFontToggle = document.getElementById('pixel-font-toggle');
+    // 默认使用像素字体
+    const storedPreference = localStorage.getItem('pixelFont');
+    
+    if (storedPreference === 'disabled') {
+        // 只有在明确被禁用的情况下才使用默认字体
+        document.body.classList.add('default-font');
+        pixelFontToggle.checked = false;
+    } else {
+        // 默认或存储的偏好是启用像素字体
+        document.body.classList.remove('default-font');
+        pixelFontToggle.checked = true;
+        localStorage.setItem('pixelFont', 'enabled');
+    }
 }
 
 function setupEventListeners() {
@@ -184,8 +205,52 @@ function setupEventListeners() {
     
     // 动画速度
     const animationSpeedSlider = document.getElementById('animation-speed');
+    const speedDisplay = document.getElementById('speed-display');
+    
+    // 初始化速度显示
+    speedDisplay.textContent = '1.00x';
+    
     animationSpeedSlider.addEventListener('input', function() {
-        // 可以在这里处理动画速度变化
+        // 将滑块值（1-5）转换为播放速度（0.5-1.5）
+        // 当值为3时，速度为1.0（原速）
+        let speed;
+        const value = parseInt(this.value);
+        
+        if (value === 3) {
+            speed = 1.0; // 中间值为原速
+        } else if (value < 3) {
+            // 1 -> 0.5, 2 -> 0.75
+            speed = 0.5 + (value - 1) * 0.25;
+        } else {
+            // 4 -> 1.25, 5 -> 1.5
+            speed = 1.0 + (value - 3) * 0.25;
+        }
+        
+        // 应用新的播放速度
+        ScenesManager.setAnimationSpeed(speed);
+        
+        // 更新显示
+        speedDisplay.textContent = speed.toFixed(2) + 'x';
+    });
+    
+    // 字体切换 - 使用点击事件
+    const fontToggleContainer = document.querySelector('.toggle-switch');
+    const pixelFontToggle = document.getElementById('pixel-font-toggle');
+    
+    fontToggleContainer.addEventListener('click', function() {
+        // 切换复选框状态
+        pixelFontToggle.checked = !pixelFontToggle.checked;
+        
+        // 根据新状态应用字体
+        if (pixelFontToggle.checked) {
+            // 启用像素字体
+            document.body.classList.remove('default-font');
+            localStorage.setItem('pixelFont', 'enabled');
+        } else {
+            // 禁用像素字体
+            document.body.classList.add('default-font');
+            localStorage.setItem('pixelFont', 'disabled');
+        }
     });
     
     // 图片上传
@@ -252,25 +317,14 @@ function setupEventListeners() {
                 // 去除文件后缀名，用于显示
                 const displayName = getFileNameWithoutExtension(fileName);
                 
-                // 创建视频容器
-                const userVideoContainer = document.createElement('div');
-                userVideoContainer.className = 'user-video-container';
-                userVideoContainer.id = 'user-' + fileId;
-                
-                // 创建视频元素
-                const videoElement = document.createElement('video');
-                videoElement.className = 'media-element';
-                videoElement.src = e.target.result;
-                videoElement.autoplay = true;
-                videoElement.loop = true;
-                videoElement.muted = true;
-                videoElement.style.width = '100%';
-                videoElement.style.height = '100%';
-                videoElement.style.objectFit = 'cover';
-                
-                // 添加到容器中
-                userVideoContainer.appendChild(videoElement);
-                document.querySelector('.scene-container').appendChild(userVideoContainer);
+                // 使用新的处理函数创建视频容器
+                const userVideoContainer = ScenesManager.handleUserVideoUpload(
+                    file, 
+                    fileId, 
+                    fileName, 
+                    displayName, 
+                    e.target.result
+                );
                 
                 // 添加到场景选项
                 ScenesManager.addSceneOption(fileId, displayName, 'video');
