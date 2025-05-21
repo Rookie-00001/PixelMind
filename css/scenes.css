@@ -43,6 +43,23 @@ body.fullscreen .scene-container {
     opacity: 1;
 }
 
+/* 确保视频标签的场景也能正确显示 */
+video.scene {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 为视频添加过渡效果 */
+video.scene, .media-element {
+    transition: opacity 0.8s ease;
+}
+
+/* 视频容器中视频的过渡 */
+.user-video-container video {
+    transition: opacity 0.8s ease;
+}
+
 /* 用户上传图片容器 */
 .user-image-container {
     width: 100%;
